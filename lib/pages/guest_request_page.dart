@@ -18,7 +18,10 @@ class _GuestRequestPageState extends State<GuestRequestPage> {
       body: SafeArea(
           child: Container(
         margin: EdgeInsets.all(10),
-        child: Column(children: [VisitorForm()]),
+        child: Expanded(
+            child: ListView(
+          children: [VisitorForm()],
+        )),
       )),
     );
   }

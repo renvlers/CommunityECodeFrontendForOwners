@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _buildPages(BuildContext context) {
     return [
       SafeArea(
-        child: Column(children: [
+        child: ListView(children: [
           Container(
             margin: const EdgeInsets.all(10),
             child: Material(
@@ -57,22 +57,23 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.transparent,
                 child: Ink(
                   decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Colors.orange,
                       borderRadius: BorderRadius.circular(10)),
                   child: InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, RoutePath.guestRecordPage);
+                      Navigator.pushNamed(
+                          context, RoutePath.guestRequestDetailsPage);
                     },
                     child: Container(
                       padding: const EdgeInsets.all(35),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10)),
                       child: Row(children: [
-                        Image.asset("assets/images/guest_record.png",
+                        Image.asset("assets/images/guest_details.png",
                             width: 80, height: 80),
                         Expanded(child: Container()),
                         const Text(
-                          "访客通行记录",
+                          "登记详情",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -89,7 +90,39 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.transparent,
                 child: Ink(
                   decoration: BoxDecoration(
-                      color: Colors.cyan,
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, RoutePath.guestRecordPage);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(35),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(children: [
+                        Image.asset("assets/images/guest_record.png",
+                            width: 80, height: 80),
+                        Expanded(child: Container()),
+                        const Text(
+                          "通行记录",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 24),
+                        )
+                      ]),
+                    ),
+                  ),
+                )),
+          ),
+          Container(
+            margin: const EdgeInsets.all(10),
+            child: Material(
+                color: Colors.transparent,
+                child: Ink(
+                  decoration: BoxDecoration(
+                      color: Colors.purple,
                       borderRadius: BorderRadius.circular(10)),
                   child: InkWell(
                     onTap: () {
@@ -120,7 +153,7 @@ class _HomePageState extends State<HomePage> {
       SafeArea(
           child: Container(
               margin: EdgeInsets.all(10),
-              child: Column(children: [
+              child: ListView(children: [
                 Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(30),

@@ -12,7 +12,7 @@ class _GuestRecordPageState extends State<GuestRecordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("访客通行记录"), centerTitle: true),
+      appBar: AppBar(title: Text("通行记录"), centerTitle: true),
       body: SafeArea(
         child: Container(
             margin: EdgeInsets.fromLTRB(10, 0, 10, 0),

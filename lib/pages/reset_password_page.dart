@@ -15,7 +15,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       appBar: AppBar(title: Text("修改密码"), centerTitle: true),
       body: SafeArea(
           child: Container(
-              margin: EdgeInsets.all(10), child: ResetPasswordForm())),
+              margin: EdgeInsets.all(10),
+              child: Expanded(
+                  child: ListView(
+                children: [ResetPasswordForm()],
+              )))),
     );
   }
 }
