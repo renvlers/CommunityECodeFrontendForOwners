@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_for_owners/pages/login_page.dart';
 import 'package:frontend_for_owners/routes/routes.dart';
-import 'package:frontend_for_owners/widgets/record_item_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
