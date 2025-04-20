@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_for_owners/pages/created_successfully_page.dart';
 import 'package:frontend_for_owners/pages/guest_record_page.dart';
 import 'package:frontend_for_owners/pages/guest_request_details_page.dart';
 import 'package:frontend_for_owners/pages/guest_request_page.dart';
@@ -21,6 +22,8 @@ class Routes {
         return pageRoute(ResetPasswordPage());
       case RoutePath.guestRequestDetailsPage:
         return pageRoute(GuestRequeseDetailsPage());
+      case RoutePath.createdSuccessfullyPage:
+        return pageRoute(CreatedSuccessfullyPage());
     }
     return pageRoute(Scaffold(
       body: SafeArea(child: Center(child: Text("页面${settings.name}不存在"))),
@@ -50,4 +53,5 @@ class RoutePath {
   static const String guestRecordPage = "/guest_record_page";
   static const String resetPasswordPage = "/reset_password_page";
   static const String guestRequestDetailsPage = "/guest_request_details_page";
+  static const String createdSuccessfullyPage = "/created_successfully_page";
 }

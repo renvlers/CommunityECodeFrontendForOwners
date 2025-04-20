@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_for_owners/pages/created_successfully_page.dart';
+import 'package:frontend_for_owners/routes/routes.dart';
 
 class VisitorForm extends StatefulWidget {
   const VisitorForm({super.key});
@@ -193,6 +195,11 @@ class _VisitorFormState extends State<VisitorForm> {
                   print("访客手机号: ${_phoneController.text}");
                   print("进入时间: ${_enterDateTime.toString()}");
                   print("离开时间: ${_leaveDateTime.toString()}");
+
+                  // 处理提交访客登记逻辑
+
+                  Navigator.pushNamed(
+                      context, RoutePath.createdSuccessfullyPage);
                 }
               },
               child: Container(
