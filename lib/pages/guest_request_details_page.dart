@@ -19,10 +19,13 @@ class _GuestRequestDetailsPageState extends State<GuestRequeseDetailsPage> {
         body: SafeArea(
           child: Container(
             margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child:
-                Expanded(child: ListView.builder(itemBuilder: (context, index) {
-              return Column(children: [SizedBox(height: 10), DetailsCard()]);
-            })),
+            child: Expanded(
+                child: ListView.builder(
+                    itemCount: 2,
+                    itemBuilder: (context, index) {
+                      return Column(
+                          children: [SizedBox(height: 10), DetailsCard()]);
+                    })),
           ),
         ));
   }
