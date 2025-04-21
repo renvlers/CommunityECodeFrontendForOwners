@@ -1,6 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend_for_owners/pages/login_page.dart';
 import 'package:frontend_for_owners/routes/routes.dart';
+import 'package:frontend_for_owners/utils/api_client.dart';
+import 'package:frontend_for_owners/utils/user_util.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,6 +17,52 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+
+  int? uid;
+  String? username;
+  String? phone;
+  String? roomNumber;
+
+  Future<void> _logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeHomePage();
+  }
+
+  Future<void> _initializeUser() async {
+    uid = await UserUtil.getUid() ?? 0;
+    username = await UserUtil.getName() ?? "";
+    phone = await UserUtil.getPhoneNumber() ?? "";
+    roomNumber = await UserUtil.getRoomNumber() ?? "";
+  }
+
+  Future<void> _initializeHomePage() async {
+    bool loggedIn = await _checkLoginStatus();
+
+    if (loggedIn) {
+      await _initializeUser();
+    }
+  }
+
+  Future<bool> _checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+    if (!isLoggedIn) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (route) => false,
+      );
+      return false;
+    }
+
+    return true;
+  }
 
   // 页面列表
   List<Widget> _buildPages(BuildContext context) {
@@ -168,9 +218,10 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("业主姓名", style: TextStyle(fontSize: 20)),
-                            Text("手机号"),
-                            Text("门牌号")
+                            Text(username ?? "业主姓名",
+                                style: TextStyle(fontSize: 20)),
+                            Text(phone ?? "业主手机号"),
+                            Text(roomNumber ?? "门牌号")
                           ]),
                       Expanded(
                         child: SizedBox(),
@@ -220,7 +271,8 @@ class _HomePageState extends State<HomePage> {
                                             child: Text("取消"),
                                           ),
                                           TextButton(
-                                            onPressed: () {
+                                            onPressed: () async {
+                                              await _logout();
                                               Navigator.of(context)
                                                   .pushAndRemoveUntil(
                                                 MaterialPageRoute(

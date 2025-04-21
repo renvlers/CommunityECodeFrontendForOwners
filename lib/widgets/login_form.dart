@@ -1,5 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend_for_owners/routes/routes.dart';
+import 'package:frontend_for_owners/utils/api_client.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -12,6 +15,26 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _saveLoginInfo(int userId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', true);
+    await prefs.setInt('userId', userId);
+    try {
+      Response response =
+          await ApiClient().dio.get("/user/get_user?uid=${userId}");
+      if (response.statusCode == 200) {
+        await prefs.setString('username', response.data['data']['username']);
+        await prefs.setString('phone', response.data['data']['phone']);
+        await prefs.setString(
+            'roomNumber', response.data['data']['roomNumber']);
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
+  }
 
   bool _obscureText = true;
 
@@ -71,11 +94,45 @@ class _LoginFormState extends State<LoginForm> {
             decoration: BoxDecoration(
                 color: Colors.blue, borderRadius: BorderRadius.circular(5)),
             child: InkWell(
-              onTap: () {
+              onTap: () async {
                 if (_formKey.currentState!.validate()) {
                   // 处理登录逻辑
-                  print("账号: ${_usernameController.text}");
-                  print("密码: ${_passwordController.text}");
+                  try {
+                    Response response =
+                        await ApiClient().dio.post("/user/login", data: {
+                      "phone": _usernameController.text,
+                      "password": _passwordController.text,
+                      "permission": 1
+                    });
+                    if (response.statusCode == 200 &&
+                        response.data['message'] == "登录成功") {
+                      int userId = response.data['data']['uid'];
+                      print(userId);
+                      await _saveLoginInfo(userId);
+                      Navigator.pushReplacementNamed(
+                          context, RoutePath.homePage);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content:
+                                Text(response.data['message'] ?? '用户名或密码错误')),
+                      );
+                    }
+                  } on DioException catch (e) {
+                    String errorMessage = e.toString();
+                    if (e.response != null &&
+                        e.response?.data != null &&
+                        e.response?.data['message'] != null) {
+                      errorMessage = e.response?.data['message'];
+                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(errorMessage)),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(e.toString())),
+                    );
+                  }
                 }
               },
               child: Container(

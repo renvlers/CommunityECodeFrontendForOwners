@@ -47,7 +47,7 @@ class Routes {
 }
 
 class RoutePath {
-  static const String homePage = "/home_page";
+  static const String homePage = "/";
   static const String loginPage = "/login_page";
   static const String guestRequestPage = "/guest_request_page";
   static const String guestRecordPage = "/guest_record_page";

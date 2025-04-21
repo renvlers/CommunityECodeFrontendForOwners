@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_for_owners/pages/home_page.dart';
+import 'package:frontend_for_owners/pages/login_page.dart';
 import 'package:frontend_for_owners/routes/routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,6 +11,13 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  Future<bool> _checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+    return isLoggedIn;
+  }
 
   // This widget is the root of your application.
   @override
@@ -44,6 +54,17 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         onGenerateRoute: Routes.generateRoute,
-        initialRoute: RoutePath.homePage);
+        home: FutureBuilder<bool>(
+          future: _checkLoginStatus(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator(); // Show a loading indicator while waiting
+            } else if (snapshot.hasData && snapshot.data == true) {
+              return HomePage(); // Replace with your home page widget
+            } else {
+              return LoginPage(); // Replace with your login page widget
+            }
+          },
+        ));
   }
 }
