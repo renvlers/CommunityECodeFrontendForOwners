@@ -1,5 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend_for_owners/pages/created_successfully_page.dart';
 import 'package:frontend_for_owners/routes/routes.dart';
+import 'package:frontend_for_owners/utils/api_client.dart';
+import 'package:frontend_for_owners/utils/date_time_util.dart';
+import 'package:frontend_for_owners/utils/user_util.dart';
 
 class VisitorForm extends StatefulWidget {
   const VisitorForm({super.key});
@@ -83,14 +88,6 @@ class _VisitorFormState extends State<VisitorForm> {
     });
   }
 
-  String _formatDateTime(DateTime? dateTime) {
-    if (dateTime == null) return '';
-    return "${dateTime.year}-${_pad(dateTime.month)}-${_pad(dateTime.day)} "
-        "${_pad(dateTime.hour)}:${_pad(dateTime.minute)}";
-  }
-
-  String _pad(int value) => value.toString().padLeft(2, '0');
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -145,7 +142,7 @@ class _VisitorFormState extends State<VisitorForm> {
                   border: OutlineInputBorder(),
                 ),
                 controller: TextEditingController(
-                  text: _formatDateTime(_enterDateTime),
+                  text: DateTimeUtil.getString(_enterDateTime),
                 ),
                 validator: (value) {
                   if (_enterDateTime == null) return '请选择进入时间';
@@ -173,7 +170,7 @@ class _VisitorFormState extends State<VisitorForm> {
                   border: OutlineInputBorder(),
                 ),
                 controller: TextEditingController(
-                  text: _formatDateTime(_leaveDateTime),
+                  text: DateTimeUtil.getString(_leaveDateTime),
                 ),
                 validator: (value) => _validateLeaveTime(),
               ),
@@ -188,7 +185,7 @@ class _VisitorFormState extends State<VisitorForm> {
               borderRadius: BorderRadius.circular(5),
             ),
             child: InkWell(
-              onTap: () {
+              onTap: () async {
                 if (_formKey.currentState!.validate()) {
                   print("访客姓名: ${_nameController.text}");
                   print("访客手机号: ${_phoneController.text}");
@@ -196,9 +193,53 @@ class _VisitorFormState extends State<VisitorForm> {
                   print("离开时间: ${_leaveDateTime.toString()}");
 
                   // 处理提交访客登记逻辑
-
-                  Navigator.pushNamed(
-                      context, RoutePath.createdSuccessfullyPage);
+                  try {
+                    Response response = await ApiClient()
+                        .dio
+                        .post('/guest/create_request', data: {
+                      "enterTime": _enterDateTime!.toIso8601String(),
+                      "leaveTime": _leaveDateTime!.toIso8601String(),
+                      "guestName": _nameController.text,
+                      "guestPhone": _phoneController.text,
+                      "ownerId": await UserUtil.getUid()
+                    });
+                    if (response.statusCode == 200) {
+                      DateTime enterTime =
+                          DateTime.parse(response.data['data']['enterTime']);
+                      DateTime leaveTime =
+                          DateTime.parse(response.data['data']['leaveTime']);
+                      String guestName = response.data['data']['guestName'];
+                      String guestPhone = response.data['data']['guestPhone'];
+                      String requestCode = response.data['data']['requestCode'];
+                      String qrCode = response.data['data']['hash'];
+                      Navigator.pushNamed(
+                        context,
+                        RoutePath.createdSuccessfullyPage,
+                        arguments: {
+                          'enterTime': enterTime,
+                          'leaveTime': leaveTime,
+                          'guestName': guestName,
+                          'guestPhone': guestPhone,
+                          'requestCode': requestCode,
+                          'qrCode': qrCode,
+                        },
+                      );
+                    }
+                  } on DioException catch (e) {
+                    String errorMessage = e.toString();
+                    if (e.response != null &&
+                        e.response?.data != null &&
+                        e.response?.data['message'] != null) {
+                      errorMessage = e.response?.data['message'];
+                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(errorMessage)),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(e.toString())),
+                    );
+                  }
                 }
               },
               child: Container(

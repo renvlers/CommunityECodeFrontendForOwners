@@ -29,6 +29,16 @@ class _LoginFormState extends State<LoginForm> {
         await prefs.setString(
             'roomNumber', response.data['data']['roomNumber']);
       }
+    } on DioException catch (e) {
+      String errorMessage = e.toString();
+      if (e.response != null &&
+          e.response?.data != null &&
+          e.response?.data['message'] != null) {
+        errorMessage = e.response?.data['message'];
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.toString())),

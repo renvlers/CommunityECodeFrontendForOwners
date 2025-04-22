@@ -24,7 +24,8 @@ class _GuestRequestDetailsPageState extends State<GuestRequeseDetailsPage> {
                     itemCount: 2,
                     itemBuilder: (context, index) {
                       return Column(
-                          children: [SizedBox(height: 10), DetailsCard()]);
+                          // children: [SizedBox(height: 10), DetailsCard()],
+                          );
                     })),
           ),
         ));

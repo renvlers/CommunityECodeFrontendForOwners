@@ -13,6 +13,16 @@ class CreatedSuccessfullyPage extends StatefulWidget {
 class _CreatedSuccessfullyPageState extends State<CreatedSuccessfullyPage> {
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    if (args == null) {
+      return Scaffold(
+        appBar: AppBar(title: Text('错误'), centerTitle: true),
+        body: Center(child: Text('未收到参数')),
+      );
+    }
+
     return Scaffold(
         appBar: AppBar(title: const Text("登记成功"), centerTitle: true),
         body: SafeArea(
@@ -20,7 +30,14 @@ class _CreatedSuccessfullyPageState extends State<CreatedSuccessfullyPage> {
                 margin: EdgeInsets.all(10),
                 child: Expanded(
                     child: ListView(children: [
-                  DetailsCard(),
+                  DetailsCard(
+                    enterTime: args['enterTime'] ?? DateTime.now(),
+                    leaveTime: args['leaveTime'] ?? DateTime.now(),
+                    guestName: args['guestName'] ?? "访客姓名",
+                    guestPhone: args['guestPhone'] ?? "访客手机号",
+                    requestCode: args['requestCode'] ?? "访问代码",
+                    qrCode: args['qrCode'] ?? "二维码",
+                  ),
                   SizedBox(height: 15),
                   Ink(
                     decoration: BoxDecoration(

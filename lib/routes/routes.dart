@@ -11,19 +11,19 @@ class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RoutePath.homePage:
-        return pageRoute(HomePage());
+        return pageRoute(HomePage(), settings: settings);
       case RoutePath.loginPage:
-        return pageRoute(LoginPage());
+        return pageRoute(LoginPage(), settings: settings);
       case RoutePath.guestRequestPage:
-        return pageRoute(GuestRequestPage());
+        return pageRoute(GuestRequestPage(), settings: settings);
       case RoutePath.guestRecordPage:
-        return pageRoute(GuestRecordPage());
+        return pageRoute(GuestRecordPage(), settings: settings);
       case RoutePath.resetPasswordPage:
-        return pageRoute(ResetPasswordPage());
+        return pageRoute(ResetPasswordPage(), settings: settings);
       case RoutePath.guestRequestDetailsPage:
-        return pageRoute(GuestRequeseDetailsPage());
+        return pageRoute(GuestRequeseDetailsPage(), settings: settings);
       case RoutePath.createdSuccessfullyPage:
-        return pageRoute(CreatedSuccessfullyPage());
+        return pageRoute(CreatedSuccessfullyPage(), settings: settings);
     }
     return pageRoute(Scaffold(
       body: SafeArea(child: Center(child: Text("页面${settings.name}不存在"))),
