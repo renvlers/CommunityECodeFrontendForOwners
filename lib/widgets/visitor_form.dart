@@ -26,7 +26,7 @@ class _VisitorFormState extends State<VisitorForm> {
     super.initState();
     final now = DateTime.now();
     _enterDateTime = now;
-    _leaveDateTime = now.add(Duration(minutes: 30));
+    _leaveDateTime = now.add(Duration(minutes: 120));
   }
 
   String? _validateLeaveTime() {
@@ -70,20 +70,10 @@ class _VisitorFormState extends State<VisitorForm> {
         // 如果当前离开时间比新的进入时间早，也自动更新一下
         if (_leaveDateTime != null &&
             _leaveDateTime!.isBefore(selectedDateTime)) {
-          _leaveDateTime = selectedDateTime.add(Duration(minutes: 30));
+          _leaveDateTime = selectedDateTime.add(Duration(minutes: 120));
         }
       } else {
         _leaveDateTime = selectedDateTime;
-      }
-    });
-  }
-
-  void _clearDateTime(bool isEnterTime) {
-    setState(() {
-      if (isEnterTime) {
-        _enterDateTime = null;
-      } else {
-        _leaveDateTime = null;
       }
     });
   }
@@ -133,12 +123,6 @@ class _VisitorFormState extends State<VisitorForm> {
                 decoration: InputDecoration(
                   labelText: '进入时间',
                   prefixIcon: Icon(Icons.calendar_today),
-                  suffixIcon: _enterDateTime != null
-                      ? IconButton(
-                          icon: Icon(Icons.clear),
-                          onPressed: () => _clearDateTime(true),
-                        )
-                      : null,
                   border: OutlineInputBorder(),
                 ),
                 controller: TextEditingController(
@@ -161,12 +145,6 @@ class _VisitorFormState extends State<VisitorForm> {
                 decoration: InputDecoration(
                   labelText: '离开时间',
                   prefixIcon: Icon(Icons.calendar_today),
-                  suffixIcon: _leaveDateTime != null
-                      ? IconButton(
-                          icon: Icon(Icons.clear),
-                          onPressed: () => _clearDateTime(false),
-                        )
-                      : null,
                   border: OutlineInputBorder(),
                 ),
                 controller: TextEditingController(
