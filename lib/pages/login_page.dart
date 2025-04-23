@@ -16,7 +16,6 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
         appBar: AppBar(title: const Text("登录"), centerTitle: true),
         body: SafeArea(
-            child: Expanded(
           child: Container(
             margin: EdgeInsets.all(10),
             child: ListView(children: [
@@ -33,6 +32,6 @@ class _LoginPageState extends State<LoginPage> {
               LoginForm()
             ]),
           ),
-        )));
+        ));
   }
 }

@@ -53,6 +53,16 @@ class _GuestRequestDetailsPageState extends State<GuestRequeseDetailsPage> {
           }).toList();
         });
       }
+    } on DioException catch (e) {
+      String errorMessage = e.toString();
+      if (e.response != null &&
+          e.response?.data != null &&
+          e.response?.data['message'] != null) {
+        errorMessage = e.response?.data['message'];
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.toString())),
@@ -77,8 +87,10 @@ class _GuestRequestDetailsPageState extends State<GuestRequeseDetailsPage> {
         body: SafeArea(
           child: Container(
             margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: Expanded(
-                child: ListView.builder(
+            child: _guestRequests.length == 0
+                ? Container(
+                    alignment: Alignment.center, child: Text("没有待使用的登记"))
+                : ListView.builder(
                     itemCount: _guestRequests.length,
                     itemBuilder: (context, index) {
                       return Column(
@@ -91,12 +103,13 @@ class _GuestRequestDetailsPageState extends State<GuestRequeseDetailsPage> {
                             guestPhone: _guestRequests[index].guestPhone,
                             requestCode: _guestRequests[index].requestCode,
                             qrCode: _guestRequests[index].qrCode,
+                            pageKind: 1,
                           ),
                           if (index == _guestRequests.length - 1)
                             SizedBox(height: 10),
                         ],
                       );
-                    })),
+                    }),
           ),
         ));
   }

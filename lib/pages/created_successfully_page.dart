@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:frontend_for_owners/pages/home_page.dart';
 import 'package:frontend_for_owners/widgets/details_card.dart';
@@ -6,8 +8,7 @@ class CreatedSuccessfullyPage extends StatefulWidget {
   const CreatedSuccessfullyPage({Key? key}) : super(key: key);
 
   @override
-  _CreatedSuccessfullyPageState createState() =>
-      _CreatedSuccessfullyPageState();
+  State<StatefulWidget> createState() => _CreatedSuccessfullyPageState();
 }
 
 class _CreatedSuccessfullyPageState extends State<CreatedSuccessfullyPage> {
@@ -28,8 +29,7 @@ class _CreatedSuccessfullyPageState extends State<CreatedSuccessfullyPage> {
         body: SafeArea(
             child: Container(
                 margin: EdgeInsets.all(10),
-                child: Expanded(
-                    child: ListView(children: [
+                child: ListView(children: [
                   DetailsCard(
                     enterTime: args['enterTime'] ?? DateTime.now(),
                     leaveTime: args['leaveTime'] ?? DateTime.now(),
@@ -37,6 +37,7 @@ class _CreatedSuccessfullyPageState extends State<CreatedSuccessfullyPage> {
                     guestPhone: args['guestPhone'] ?? "访客手机号",
                     requestCode: args['requestCode'] ?? "访问代码",
                     qrCode: args['qrCode'] ?? "二维码",
+                    pageKind: 0,
                   ),
                   SizedBox(height: 15),
                   Ink(
@@ -64,6 +65,6 @@ class _CreatedSuccessfullyPageState extends State<CreatedSuccessfullyPage> {
                       ),
                     ),
                   )
-                ])))));
+                ]))));
   }
 }

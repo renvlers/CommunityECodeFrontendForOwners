@@ -14,17 +14,15 @@ class _GuestRecordPageState extends State<GuestRecordPage> {
     return Scaffold(
       appBar: AppBar(title: Text("通行记录"), centerTitle: true),
       body: SafeArea(
-        child: Container(
-            margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: Expanded(
-                child: ListView.builder(
-              itemCount: 100,
-              itemBuilder: (context, index) {
-                return Column(
-                    children: [SizedBox(height: 10), RecordItemCard()]);
-              },
-            ))),
-      ),
+          child: Container(
+              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: ListView.builder(
+                itemCount: 100,
+                itemBuilder: (context, index) {
+                  return Column(
+                      children: [SizedBox(height: 10), RecordItemCard()]);
+                },
+              ))),
     );
   }
 }

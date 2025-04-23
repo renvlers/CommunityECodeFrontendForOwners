@@ -14,15 +14,13 @@ class _GuestRequestPageState extends State<GuestRequestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("访客登记"), centerTitle: true),
-      body: SafeArea(
+        appBar: AppBar(title: const Text("访客登记"), centerTitle: true),
+        body: SafeArea(
           child: Container(
-        margin: EdgeInsets.all(10),
-        child: Expanded(
-            child: ListView(
-          children: [VisitorForm()],
-        )),
-      )),
-    );
+              margin: EdgeInsets.all(10),
+              child: ListView(
+                children: [VisitorForm()],
+              )),
+        ));
   }
 }

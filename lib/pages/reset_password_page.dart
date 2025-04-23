@@ -12,14 +12,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("修改密码"), centerTitle: true),
-      body: SafeArea(
-          child: Container(
-              margin: EdgeInsets.all(10),
-              child: Expanded(
-                  child: ListView(
-                children: [ResetPasswordForm()],
-              )))),
-    );
+        appBar: AppBar(title: Text("修改密码"), centerTitle: true),
+        body: SafeArea(
+            child: Container(
+                margin: EdgeInsets.all(10),
+                child: ListView(
+                  children: [ResetPasswordForm()],
+                ))));
   }
 }

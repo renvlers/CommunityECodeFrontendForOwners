@@ -4,7 +4,8 @@ class ApiClient {
   static final ApiClient _instance = ApiClient._internal();
 
   late Dio _dio;
-  String _baseUrl = "http://localhost:8888";
+  // String _baseUrl = "http://localhost:8888";
+  String _baseUrl = "http://10.231.69.138:8888";
 
   factory ApiClient() {
     return _instance;

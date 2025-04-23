@@ -24,7 +24,7 @@ class _RecordItemCardState extends State<RecordItemCard> {
                 Icon(Icons.home, color: Colors.white),
                 Text("进出时间", style: TextStyle(color: Colors.white))
               ]),
-              Expanded(child: SizedBox()),
+              Spacer(),
               Row(children: [
                 Icon(Icons.person, color: Colors.white),
                 Text("访客姓名", style: TextStyle(color: Colors.white))
@@ -36,7 +36,7 @@ class _RecordItemCardState extends State<RecordItemCard> {
                 Icon(Icons.phone, color: Colors.white),
                 Text("访客手机号", style: TextStyle(color: Colors.white))
               ]),
-              Expanded(child: SizedBox()),
+              Spacer(),
               Row(children: [
                 Icon(Icons.start, color: Colors.white),
                 Text("状态", style: TextStyle(color: Colors.white))

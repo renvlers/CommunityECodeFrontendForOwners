@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                       child: Row(children: [
                         Image.asset("assets/images/guest_request.png",
                             width: 80, height: 80),
-                        Expanded(child: Container()),
+                        Spacer(),
                         const Text(
                           "访客登记",
                           style: TextStyle(
@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                       child: Row(children: [
                         Image.asset("assets/images/guest_details.png",
                             width: 80, height: 80),
-                        Expanded(child: Container()),
+                        Spacer(),
                         const Text(
                           "登记详情",
                           style: TextStyle(
@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                       child: Row(children: [
                         Image.asset("assets/images/guest_record.png",
                             width: 80, height: 80),
-                        Expanded(child: Container()),
+                        Spacer(),
                         const Text(
                           "通行记录",
                           style: TextStyle(
@@ -185,7 +185,7 @@ class _HomePageState extends State<HomePage> {
                       child: Row(children: [
                         Image.asset("assets/images/ai.png",
                             width: 80, height: 80),
-                        Expanded(child: Container()),
+                        Spacer(),
                         const Text(
                           "智能助手",
                           style: TextStyle(
@@ -223,9 +223,7 @@ class _HomePageState extends State<HomePage> {
                             Text(phone ?? "业主手机号"),
                             Text(roomNumber ?? "门牌号")
                           ]),
-                      Expanded(
-                        child: SizedBox(),
-                      )
+                      Spacer(),
                     ])),
                 SizedBox(height: 16),
                 Row(
