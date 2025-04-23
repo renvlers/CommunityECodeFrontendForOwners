@@ -72,7 +72,6 @@ class _GuestRequestDetailsPageState extends State<GuestRequeseDetailsPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getAllRequests();
   }

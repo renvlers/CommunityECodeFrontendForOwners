@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:frontend_for_owners/pages/home_page.dart';
 import 'package:frontend_for_owners/pages/login_page.dart';
 import 'package:frontend_for_owners/routes/routes.dart';
@@ -7,6 +8,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.transparent, // 底部导航栏透明
+    statusBarColor: Colors.transparent, // 顶部状态栏透明
+  ));
 }
 
 class MyApp extends StatelessWidget {
