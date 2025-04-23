@@ -4,8 +4,8 @@ import 'package:frontend_for_owners/utils/api_client.dart';
 import 'package:frontend_for_owners/utils/user_util.dart';
 import 'package:frontend_for_owners/widgets/details_card.dart';
 
-class _GuestRequests {
-  _GuestRequests({
+class _GuestRequest {
+  _GuestRequest({
     required this.enterTime,
     required this.leaveTime,
     required this.guestName,
@@ -30,7 +30,7 @@ class GuestRequeseDetailsPage extends StatefulWidget {
 }
 
 class _GuestRequestDetailsPageState extends State<GuestRequeseDetailsPage> {
-  List<_GuestRequests> _guestRequests = [];
+  List<_GuestRequest> _guestRequests = [];
   Future<void> _getAllRequests() async {
     try {
       int uid = await UserUtil.getUid() ?? 0;
@@ -41,8 +41,8 @@ class _GuestRequestDetailsPageState extends State<GuestRequeseDetailsPage> {
       if (response.statusCode == 200) {
         List data = response.data['data'] ?? [];
         setState(() {
-          _guestRequests = data.map<_GuestRequests>((item) {
-            return _GuestRequests(
+          _guestRequests = data.map<_GuestRequest>((item) {
+            return _GuestRequest(
               enterTime: DateTime.parse(item['enterTime']),
               leaveTime: DateTime.parse(item['leaveTime']),
               guestName: item['guestName'] ?? '',
@@ -86,7 +86,7 @@ class _GuestRequestDetailsPageState extends State<GuestRequeseDetailsPage> {
         body: SafeArea(
           child: Container(
             margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: _guestRequests.length == 0
+            child: _guestRequests.isEmpty
                 ? Container(
                     alignment: Alignment.center, child: Text("没有待使用的登记"))
                 : ListView.builder(

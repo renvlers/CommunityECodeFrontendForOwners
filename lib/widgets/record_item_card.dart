@@ -1,7 +1,30 @@
 import 'package:flutter/material.dart';
 
 class RecordItemCard extends StatefulWidget {
-  const RecordItemCard({super.key});
+  const RecordItemCard({
+    super.key,
+    required this.id,
+    required this.enterTime,
+    required this.leaveTime,
+    required this.guestName,
+    required this.guestPhone,
+    required this.entrance,
+    required this.ownerId,
+    required this.requestCode,
+    required this.qrCode,
+    required this.status,
+  });
+
+  final int id;
+  final DateTime enterTime;
+  final DateTime leaveTime;
+  final String guestName;
+  final String guestPhone;
+  final String entrance;
+  final int ownerId;
+  final String requestCode;
+  final String qrCode;
+  final int status;
 
   @override
   State<StatefulWidget> createState() {
@@ -10,6 +33,32 @@ class RecordItemCard extends StatefulWidget {
 }
 
 class _RecordItemCardState extends State<RecordItemCard> {
+  late final int id;
+  late final DateTime enterTime;
+  late final DateTime leaveTime;
+  late final String guestName;
+  late final String guestPhone;
+  late final String entrance;
+  late final int ownerId;
+  late final String requestCode;
+  late final String qrCode;
+  late final int status;
+
+  @override
+  void initState() {
+    super.initState();
+    id = widget.id;
+    enterTime = widget.enterTime;
+    leaveTime = widget.leaveTime;
+    guestName = widget.guestName;
+    guestPhone = widget.guestPhone;
+    entrance = widget.entrance;
+    ownerId = widget.ownerId;
+    requestCode = widget.requestCode;
+    qrCode = widget.qrCode;
+    status = widget.status;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
