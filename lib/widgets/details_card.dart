@@ -122,7 +122,7 @@ class _DetailsCardState extends State<DetailsCard> {
       Uint8List pngBytes = byteData!.buffer.asUint8List();
 
       final tempDir = await getTemporaryDirectory();
-      final file = await File('${tempDir.path}/$requestCode.png').create();
+      final file = await File('${tempDir.path}/$qrCode.png').create();
       await file.writeAsBytes(pngBytes);
 
       await Share.shareXFiles([XFile(file.path)], text: '访客登记信息');
@@ -237,7 +237,7 @@ class _DetailsCardState extends State<DetailsCard> {
             ])),
         Offstage(
             offstage: !_isVisible,
-            child: SizedBox(width: 1, height: 1, child: _getBoundary()))
+            child: Opacity(opacity: 0.1, child: _getBoundary()))
       ],
     );
   }

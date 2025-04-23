@@ -48,7 +48,7 @@ class _GuestRequestDetailsPageState extends State<GuestRequeseDetailsPage> {
               guestName: item['guestName'] ?? '',
               guestPhone: item['guestPhone'] ?? '',
               requestCode: item['requestCode'] ?? '',
-              qrCode: item['qrCode'] ?? '',
+              qrCode: item['hash'] ?? '',
             );
           }).toList();
         });
