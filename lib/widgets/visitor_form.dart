@@ -154,7 +154,82 @@ class _VisitorFormState extends State<VisitorForm> {
             ),
           ),
           SizedBox(height: 24),
+          Ink(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: InkWell(
+              onTap: () async {
+                try {
+                  Response response = await ApiClient().dio.get(
+                      "/guest/get_records_by_owner?ownerId=${await UserUtil.getUid()}");
+                  if (response.statusCode == 200) {
+                    List data = response.data['data'];
+                    data = data.toSet().toList();
+                    final selected = await showDialog<Map<String, dynamic>>(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('选择历史访客'),
+                          content: SizedBox(
+                            width: double.maxFinite,
+                            height: 300,
+                            child: ListView.builder(
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                final item = data[index];
+                                return ListTile(
+                                  title: Text(item['guestName'] ?? ''),
+                                  subtitle: Text(item['guestPhone'] ?? ''),
+                                  onTap: () {
+                                    Navigator.of(context).pop(item);
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    );
 
+                    if (selected != null) {
+                      setState(() {
+                        _nameController.text = selected['guestName'] ?? '';
+                        _phoneController.text = selected['guestPhone'] ?? '';
+                      });
+                    }
+                  }
+                } on DioException catch (e) {
+                  String errorMessage = e.toString();
+                  if (e.response != null &&
+                      e.response?.data != null &&
+                      e.response?.data['message'] != null) {
+                    errorMessage = e.response?.data['message'];
+                  }
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(errorMessage)),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(e.toString())),
+                  );
+                }
+              },
+              child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  "从记录中导入",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
           // 提交按钮
           Ink(
             decoration: BoxDecoration(
