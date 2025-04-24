@@ -8,7 +8,7 @@ import 'package:frontend_for_owners/pages/login_page.dart';
 import 'package:frontend_for_owners/pages/reset_password_page.dart';
 
 class Routes {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RoutePath.homePage:
         return pageRoute(HomePage(), settings: settings);
@@ -25,9 +25,7 @@ class Routes {
       case RoutePath.createdSuccessfullyPage:
         return pageRoute(CreatedSuccessfullyPage(), settings: settings);
     }
-    return pageRoute(Scaffold(
-      body: SafeArea(child: Center(child: Text("页面${settings.name}不存在"))),
-    ));
+    return null;
   }
 
   static MaterialPageRoute pageRoute(Widget page,
@@ -47,7 +45,7 @@ class Routes {
 }
 
 class RoutePath {
-  static const String homePage = "/";
+  static const String homePage = "/home";
   static const String loginPage = "/login_page";
   static const String guestRequestPage = "/guest_request_page";
   static const String guestRecordPage = "/guest_record_page";

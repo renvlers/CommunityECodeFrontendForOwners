@@ -1,5 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend_for_owners/pages/login_page.dart';
 import 'dart:async';
+
+import 'package:frontend_for_owners/utils/api_client.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ResetPasswordForm extends StatefulWidget {
   const ResetPasswordForm({super.key});
@@ -36,7 +41,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
     });
   }
 
-  void _getSmsCode() {
+  void _getSmsCode() async {
     if (_secondsRemaining > 0) return;
 
     final phone = _phoneController.text;
@@ -47,8 +52,25 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
       return;
     }
 
-    // 模拟发送验证码逻辑
-    print('发送验证码到手机号: $phone');
+    try {
+      Response response =
+          await ApiClient().dio.post("/user/send_code", data: {"phone": phone});
+    } on DioException catch (e) {
+      String errorMessage = e.toString();
+      if (e.response != null &&
+          e.response?.data != null &&
+          e.response?.data['message'] != null) {
+        errorMessage = e.response?.data['message'];
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
+
     _startCountdown();
   }
 
@@ -180,12 +202,40 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
               borderRadius: BorderRadius.circular(5),
             ),
             child: InkWell(
-              onTap: () {
+              onTap: () async {
                 if (_formKey.currentState!.validate()) {
-                  print("手机号: ${_phoneController.text}");
-                  print("验证码: ${_codeController.text}");
-                  print("新密码: ${_newPwdController.text}");
                   // 处理修改密码逻辑
+                  try {
+                    Response response = await ApiClient()
+                        .dio
+                        .put("/user/change_password", data: {
+                      "phone": _phoneController.text,
+                      "verificationCode": _codeController.text,
+                      "newPassword": _newPwdController.text
+                    });
+                    if (response.statusCode == 200) {
+                      final prefs = await SharedPreferences.getInstance();
+                      await prefs.clear();
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                        (route) => false,
+                      );
+                    }
+                  } on DioException catch (e) {
+                    String errorMessage = e.toString();
+                    if (e.response != null &&
+                        e.response?.data != null &&
+                        e.response?.data['message'] != null) {
+                      errorMessage = e.response?.data['message'];
+                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(errorMessage)),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(e.toString())),
+                    );
+                  }
                 }
               },
               child: Container(
