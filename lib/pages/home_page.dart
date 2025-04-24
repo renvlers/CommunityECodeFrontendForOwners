@@ -1,8 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend_for_owners/pages/login_page.dart';
 import 'package:frontend_for_owners/routes/routes.dart';
-import 'package:frontend_for_owners/utils/api_client.dart';
 import 'package:frontend_for_owners/utils/user_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

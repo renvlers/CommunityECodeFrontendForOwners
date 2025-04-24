@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_for_owners/utils/date_time_util.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class RecordItemCard extends StatefulWidget {
   const RecordItemCard({
@@ -59,39 +61,128 @@ class _RecordItemCardState extends State<RecordItemCard> {
     status = widget.status;
   }
 
+  String _getStatus(int statusId) {
+    switch (statusId) {
+      case 0:
+        return "已过期";
+      case 1:
+        return "已允许";
+      case 2:
+        return "已拒绝";
+      case 3:
+        return "已撤回";
+    }
+    return "未知状态";
+  }
+
+  Color _getCardColorByStatusId(int statusId) {
+    switch (statusId) {
+      case 0:
+        return Color.fromARGB(255, 183, 211, 255);
+      case 1:
+        return Color.fromARGB(255, 205, 255, 183);
+      case 2:
+        return Color.fromARGB(255, 255, 190, 190);
+      case 3:
+        return Color.fromARGB(255, 255, 250, 184);
+    }
+    return Color.fromARGB(255, 217, 217, 217);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.all(15),
         decoration: BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.circular(10)), // 此处卡片的背景颜色应当取决于该记录的状态
-        child: Column(
-          children: [
-            Row(children: [
+            color: _getCardColorByStatusId(status), // 此处卡片的背景颜色应当取决于该记录的状态
+            borderRadius: BorderRadius.circular(10)),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Row(children: [
-                Icon(Icons.home, color: Colors.white),
-                Text("进出时间", style: TextStyle(color: Colors.white))
+                Icon(Icons.access_time_outlined),
+                SizedBox(width: 6),
+                Text(
+                    "${DateTimeUtil.getString(enterTime)} - ${DateTimeUtil.getString(leaveTime)}")
               ]),
-              Spacer(),
+              SizedBox(height: 8),
               Row(children: [
-                Icon(Icons.person, color: Colors.white),
-                Text("访客姓名", style: TextStyle(color: Colors.white))
+                Icon(Icons.person_outlined),
+                SizedBox(width: 6),
+                Text(guestName)
               ]),
-            ]),
-            SizedBox(height: 36),
-            Row(children: [
+              SizedBox(height: 8),
               Row(children: [
-                Icon(Icons.phone, color: Colors.white),
-                Text("访客手机号", style: TextStyle(color: Colors.white))
+                Icon(Icons.phone_outlined),
+                SizedBox(width: 6),
+                Text(guestPhone)
               ]),
-              Spacer(),
+              SizedBox(height: 8),
               Row(children: [
-                Icon(Icons.start, color: Colors.white),
-                Text("状态", style: TextStyle(color: Colors.white))
+                Icon(Icons.door_front_door_outlined),
+                SizedBox(width: 6),
+                Text(entrance)
+              ]),
+              SizedBox(height: 8),
+              Row(children: [
+                Icon(Icons.info_outlined),
+                SizedBox(width: 6),
+                Text(_getStatus(status))
               ])
-            ])
-          ],
-        ));
+            ],
+          ),
+          SizedBox(height: 10),
+          Divider(color: Colors.grey),
+          SizedBox(height: 10),
+          Column(
+            children: [
+              ElevatedButton.icon(
+                  onPressed: () async {
+                    try {
+                      await showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          content: SizedBox(
+                              width: 200, // 固定宽度
+                              height: 261, // 固定高度
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        requestCode,
+                                        style: TextStyle(fontSize: 36),
+                                      ),
+                                      SizedBox(height: 10),
+                                      QrImageView(
+                                        data: qrCode,
+                                        version: QrVersions.auto,
+                                        size: 200,
+                                      ),
+                                    ],
+                                  ))),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: Text('关闭'),
+                            ),
+                          ],
+                        ),
+                      );
+                    } catch (e, stack) {
+                      print("显示二维码失败: $e");
+                      print(stack);
+                    }
+                  },
+                  icon: Icon(Icons.more_horiz),
+                  label: Text("查看更多信息"),
+                  style: ButtonStyle(
+                      elevation: MaterialStateProperty.all(0),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(7)))))
+            ],
+          )
+        ]));
   }
 }

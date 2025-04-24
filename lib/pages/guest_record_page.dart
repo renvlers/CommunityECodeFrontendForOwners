@@ -47,9 +47,8 @@ class _GuestRecordPageState extends State<GuestRecordPage> {
 
   Future<void> _getRecordsByOwnerId() async {
     try {
-      Response response = await ApiClient()
-          .dio
-          .get("/guest/get_records_by_owner?ownerId=${UserUtil.getUid()}");
+      Response response = await ApiClient().dio.get(
+          "/guest/get_records_by_owner?ownerId=${await UserUtil.getUid()}");
       if (response.statusCode == 200) {
         List data = response.data['data'] ?? [];
         setState(() {
@@ -67,6 +66,7 @@ class _GuestRecordPageState extends State<GuestRecordPage> {
               status: item['status'],
             );
           }).toList();
+          _guestRecords.sort((a, b) => b.enterTime.compareTo(a.enterTime));
         });
       }
     } on DioException catch (e) {
@@ -97,7 +97,7 @@ class _GuestRecordPageState extends State<GuestRecordPage> {
                   ? Container(
                       alignment: Alignment.center, child: Text("没有您所登记的访客通行记录"))
                   : ListView.builder(
-                      itemCount: 100,
+                      itemCount: _guestRecords.length,
                       itemBuilder: (context, index) {
                         return Column(children: [
                           SizedBox(height: 10),

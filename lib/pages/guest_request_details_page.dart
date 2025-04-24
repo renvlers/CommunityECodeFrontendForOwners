@@ -51,6 +51,7 @@ class _GuestRequestDetailsPageState extends State<GuestRequeseDetailsPage> {
               qrCode: item['hash'] ?? '',
             );
           }).toList();
+          _guestRequests.sort((a, b) => b.enterTime.compareTo(a.enterTime));
         });
       }
     } on DioException catch (e) {
