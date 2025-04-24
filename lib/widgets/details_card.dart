@@ -22,7 +22,9 @@ class DetailsCard extends StatefulWidget {
 
   final int pageKind;
 
-  const DetailsCard(
+  Function? setParentState;
+
+  DetailsCard(
       {super.key,
       required this.enterTime,
       required this.leaveTime,
@@ -30,7 +32,8 @@ class DetailsCard extends StatefulWidget {
       required this.guestPhone,
       required this.requestCode,
       required this.qrCode,
-      required this.pageKind});
+      required this.pageKind,
+      this.setParentState});
 
   @override
   State<StatefulWidget> createState() => _DetailsCardState();
@@ -46,6 +49,8 @@ class _DetailsCardState extends State<DetailsCard> {
 
   late final int pageKind;
 
+  late Function? setParentState;
+
   final GlobalKey _globalKey = GlobalKey();
 
   bool _isVisible = false;
@@ -60,6 +65,7 @@ class _DetailsCardState extends State<DetailsCard> {
     requestCode = widget.requestCode;
     qrCode = widget.qrCode;
     pageKind = widget.pageKind;
+    setParentState = widget.setParentState;
   }
 
   RepaintBoundary _getBoundary() {
@@ -209,7 +215,7 @@ class _DetailsCardState extends State<DetailsCard> {
                           );
                         } else if (response.statusCode == 200 &&
                             pageKind == 1) {
-                          setState(() {});
+                          setParentState!();
                         }
                       } on DioException catch (e) {
                         String errorMessage = e.toString();

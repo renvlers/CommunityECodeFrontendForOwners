@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend_for_owners/routes/routes.dart';
@@ -166,7 +168,14 @@ class _VisitorFormState extends State<VisitorForm> {
                       "/guest/get_records_by_owner?ownerId=${await UserUtil.getUid()}");
                   if (response.statusCode == 200) {
                     List data = response.data['data'];
-                    data = data.toSet().toList();
+                    data = data
+                        .map((e) => jsonEncode({
+                              'guestName': e['guestName'],
+                              'guestPhone': e['guestPhone'],
+                            }))
+                        .toSet()
+                        .map((e) => jsonDecode(e))
+                        .toList();
                     final selected = await showDialog<Map<String, dynamic>>(
                       context: context,
                       builder: (context) {

@@ -77,6 +77,12 @@ class _GuestRequestDetailsPageState extends State<GuestRequeseDetailsPage> {
     _getAllRequests();
   }
 
+  void _updatePage() {
+    setState(() {
+      _getAllRequests();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,6 +110,7 @@ class _GuestRequestDetailsPageState extends State<GuestRequeseDetailsPage> {
                             requestCode: _guestRequests[index].requestCode,
                             qrCode: _guestRequests[index].qrCode,
                             pageKind: 1,
+                            setParentState: _updatePage,
                           ),
                           if (index == _guestRequests.length - 1)
                             SizedBox(height: 10),
