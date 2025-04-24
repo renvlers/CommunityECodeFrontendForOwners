@@ -53,8 +53,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
     }
 
     try {
-      Response response =
-          await ApiClient().dio.post("/user/send_code", data: {"phone": phone});
+      await ApiClient().dio.post("/user/send_code", data: {"phone": phone});
     } on DioException catch (e) {
       String errorMessage = e.toString();
       if (e.response != null &&
