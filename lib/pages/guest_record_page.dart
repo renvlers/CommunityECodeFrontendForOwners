@@ -30,6 +30,8 @@ class _GuestRecord {
 }
 
 class GuestRecordPage extends StatefulWidget {
+  const GuestRecordPage({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _GuestRecordPageState();
