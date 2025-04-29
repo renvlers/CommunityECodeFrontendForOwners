@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_for_owners/pages/ai_assistant_page.dart';
 import 'package:frontend_for_owners/pages/created_successfully_page.dart';
 import 'package:frontend_for_owners/pages/guest_record_page.dart';
 import 'package:frontend_for_owners/pages/guest_request_details_page.dart';
@@ -24,6 +25,8 @@ class Routes {
         return pageRoute(GuestRequeseDetailsPage(), settings: settings);
       case RoutePath.createdSuccessfullyPage:
         return pageRoute(CreatedSuccessfullyPage(), settings: settings);
+      case RoutePath.aiAssistantPage:
+        return pageRoute(AiAssistantPage(), settings: settings);
     }
     return null;
   }
@@ -52,4 +55,5 @@ class RoutePath {
   static const String resetPasswordPage = "/reset_password_page";
   static const String guestRequestDetailsPage = "/guest_request_details_page";
   static const String createdSuccessfullyPage = "/created_successfully_page";
+  static const String aiAssistantPage = "/ai_assistant_page";
 }
