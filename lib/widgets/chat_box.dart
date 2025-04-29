@@ -87,6 +87,11 @@ class _ChatBoxState extends State<ChatBox> {
             },
           ),
         ),
+        Text(
+          "结果由AI生成，有一定概率与真实情况不一致，请仔细鉴别",
+          style: TextStyle(color: Colors.grey),
+        ),
+        SizedBox(height: 5),
         Divider(height: 1),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
