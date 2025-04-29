@@ -75,7 +75,7 @@ class _ChatBoxState extends State<ChatBox> {
                 alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
                 child: Container(
                   margin:
-                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: isMe ? Colors.blue[100] : Colors.grey[300],
