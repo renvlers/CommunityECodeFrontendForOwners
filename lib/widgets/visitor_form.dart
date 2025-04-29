@@ -111,6 +111,7 @@ class _VisitorFormState extends State<VisitorForm> {
             ),
             validator: (value) {
               if (value == null || value.isEmpty) return '请输入访客手机号';
+              if (value.length != 11) return '访客手机号必须为11位';
               return null;
             },
           ),

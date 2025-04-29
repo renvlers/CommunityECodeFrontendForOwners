@@ -67,6 +67,9 @@ class _LoginFormState extends State<LoginForm> {
               if (value == null || value.isEmpty) {
                 return '请输入手机号';
               }
+              if (value.length != 11) {
+                return '手机号的长度必须为11位';
+              }
               return null;
             },
           ),
