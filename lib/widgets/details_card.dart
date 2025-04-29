@@ -22,9 +22,9 @@ class DetailsCard extends StatefulWidget {
 
   final int pageKind;
 
-  Function? setParentState;
+  final Function? setParentState;
 
-  DetailsCard(
+  const DetailsCard(
       {super.key,
       required this.enterTime,
       required this.leaveTime,

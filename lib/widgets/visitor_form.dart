@@ -184,20 +184,23 @@ class _VisitorFormState extends State<VisitorForm> {
                           title: Text('选择历史访客'),
                           content: SizedBox(
                             width: double.maxFinite,
-                            height: 300,
-                            child: ListView.builder(
-                              itemCount: data.length,
-                              itemBuilder: (context, index) {
-                                final item = data[index];
-                                return ListTile(
-                                  title: Text(item['guestName'] ?? ''),
-                                  subtitle: Text(item['guestPhone'] ?? ''),
-                                  onTap: () {
-                                    Navigator.of(context).pop(item);
-                                  },
-                                );
-                              },
-                            ),
+                            height: data.isEmpty ? 50 : 300,
+                            child: data.isEmpty
+                                ? Text("您当前没有历史访客")
+                                : ListView.builder(
+                                    itemCount: data.length,
+                                    itemBuilder: (context, index) {
+                                      final item = data[index];
+                                      return ListTile(
+                                        title: Text(item['guestName'] ?? ''),
+                                        subtitle:
+                                            Text(item['guestPhone'] ?? ''),
+                                        onTap: () {
+                                          Navigator.of(context).pop(item);
+                                        },
+                                      );
+                                    },
+                                  ),
                           ),
                         );
                       },
