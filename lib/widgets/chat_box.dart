@@ -52,6 +52,8 @@ class _ChatBoxState extends State<ChatBox> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(e.toString())),
         );
+      } finally {
+        isSending = false;
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
