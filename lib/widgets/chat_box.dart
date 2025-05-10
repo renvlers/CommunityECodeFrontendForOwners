@@ -54,6 +54,7 @@ class _ChatBoxState extends State<ChatBox> {
         );
       } finally {
         isSending = false;
+        setState(() {});
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -61,6 +62,7 @@ class _ChatBoxState extends State<ChatBox> {
       ));
     }
     isSending = false;
+    setState(() {});
   }
 
   @override
