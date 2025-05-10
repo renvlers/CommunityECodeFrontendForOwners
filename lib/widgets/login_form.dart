@@ -115,7 +115,6 @@ class _LoginFormState extends State<LoginForm> {
                         await ApiClient().dio.post("/user/login", data: {
                       "phone": _usernameController.text,
                       "password": _passwordController.text,
-                      "permission": 1
                     });
                     if (response.statusCode == 200 &&
                         response.data['message'] == "登录成功") {
